@@ -1,0 +1,67 @@
+<div class="form-container">
+  <div *ngIf="isSaved" class="alert alert-success">
+    Product Saved
+</div>
+
+
+<div *ngIf="isError" class="alert alert-warning">
+    Error saving
+</div>
+    <h2>Add New Product</h2>
+    <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">      
+
+      <div class="card">
+
+      </div>
+      
+      
+      
+      <div class="form-group">
+        <label for="title">Product Title</label>
+        <input type="text" id="title" formControlName="title">
+        <div class="input-error" *ngIf="addProductForm.get('title').invalid && addProductForm.get('title').touched " (change)="resetText()"> 
+            <small *ngIf="addProductForm.get('title').errors['required']">Product title is required</small>
+        </div>
+      </div>
+
+      <div class="form-group ">
+        <label for="category">Category</label>
+        <select id="category" formControlName="category">
+          <option value="">Select Category</option>
+          <option value="DESKTOP">Desktop</option>
+          <option value="LAPTOP">Laptop</option>
+          <option value="TABLET">Tablet</option>
+        </select>
+        <div class="input-error" *ngIf="addProductForm.get('category').invalid && addProductForm.get('category').touched"> 
+            <small *ngIf="addProductForm.get('category').errors['required']">Category is required</small>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" maxlength="1000" formControlName="description"></textarea>
+        <div class="input-error" *ngIf="addProductForm.get('description').invalid && addProductForm.get('description').touched" (change)="resetText()" > 
+            <small *ngIf="addProductForm.get('description').errors['required']">Product description is required</small>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" formControlName="price">
+        <div class="input-error" *ngIf="addProductForm.get('price').invalid && addProductForm.get('price').touched" (change)="resetText()" > 
+            <small *ngIf="addProductForm.get('price').errors['required']">Product price is required</small>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" formControlName="quantity">
+        <div class="input-error" *ngIf="addProductForm.get('quantity').invalid && addProductForm.get('quantity').touched" (change)="resetText()" > 
+            <small *ngIf="addProductForm.get('quantity').errors['required']">Product price is required</small>
+        </div>
+      </div>
+      
+      <button type="submit" [disabled]="addProductForm.invalid" >Add Product</button>
+    </form>
+  </div>
+  <button class="back-button" routerLink="/">Back</button>
