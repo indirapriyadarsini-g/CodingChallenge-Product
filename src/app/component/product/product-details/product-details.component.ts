@@ -27,7 +27,7 @@ ngOnInit(): void {
 
 toEdit() {
   this.service.setProductSelected(this.product)
-  this.router.navigate([ProductEditComponent]);
+  this.router.navigateByUrl("/product-edit");
 }
 
 

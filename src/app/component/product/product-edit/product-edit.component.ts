@@ -32,6 +32,9 @@ export class ProductEditComponent implements OnInit{
     private act:ActivatedRoute,
     private router: Router
   ){
+
+    
+
     // this.product = new Product();
     // this.service.getAllCategory().subscribe({
     //   next:(data)=>{
@@ -44,12 +47,23 @@ export class ProductEditComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.act.paramMap.subscribe(params => {
-      this.id = params.get("id")
-    })
+
+    this.id = this.service.getProductSelected().id
+
+    // this.act.paramMap.subscribe(params => {
+    //   this.id = params.get("id")
+    // })
     this.category = ['LAPTOP','DESKTOP','TABLET'];
     console.log(this.category);
 
+    this.fetchProduct();
+
+    // console.log(this.product);
+    this.isSaved = false
+    
+  }
+
+  fetchProduct(){
     this.service.findById(this.id).subscribe({
       next: (data) => {
         console.log(data)
@@ -63,10 +77,6 @@ export class ProductEditComponent implements OnInit{
         console.log(err)
       }
     })
-
-    // console.log(this.product);
-    this.isSaved = false
-    
   }
 
   onSave(){
@@ -81,7 +91,7 @@ export class ProductEditComponent implements OnInit{
     .subscribe({
       next: (data) => {
         console.log(data)
-        this.router.navigateByUrl("/")
+        this.router.navigateByUrl("/view-all-products")
       },
       error: (err) => {
         console.log(err);

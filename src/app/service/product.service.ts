@@ -11,9 +11,13 @@ export class ProductService {
 
   getAllProductsApi = 'http://localhost:8084/view-all-products'
 
-  getAllProducts(page:number,size:number):Observable<any>{
-    return this.http.get(this.getAllProductsApi+'?page='+page+'&size='+size);
-  }
+getAllProducts():Observable<any>{
+  return this.http.get(this.getAllProductsApi);
+}
+
+  // getAllProducts(page:number,size:number):Observable<any>{
+  //   return this.http.get(this.getAllProductsApi+'?page='+page+'&size='+size);
+  // }
 
   findByIdApi = 'http://localhost:8084/find-by-id/'
 

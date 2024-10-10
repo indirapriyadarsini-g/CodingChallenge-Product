@@ -22,14 +22,16 @@ export class ProductViewComponent implements OnInit{
 
   ){}
 
-  products:any;
-  totalPages:number=0;
-  pageNumber:number=0;
-  pageSize:number=5;
-  counter:number = 0;
-  pages:number[] = [];
-  first:boolean = false;
-  last:boolean = false;
+  products: any[] = []
+  stringMsg: string = ""
+  viewProductDiv: boolean = false
+  totalPages : number =0;  
+  numArry:number[]=[];
+  counter: number=0;
+  page:number=0;
+  size:number=5; 
+  last: boolean=false; 
+  first: boolean=true;
 
   ngOnInit(): void {
     this.fetchAllProducts();
@@ -37,61 +39,79 @@ export class ProductViewComponent implements OnInit{
   }
 
   fetchAllProducts(){
-    this.service.getAllProducts(this.pageNumber,this.pageSize).subscribe({
+    this.service.getAllProducts().subscribe({
       next: (data) => {
         console.log(data);
-        this.products = data.content;
-        this.first = data.first;
-        this.last = data.last;
-        if(this.counter==0){
-          let i=0;
-          while(i<this.totalPages){
-                this.pages.push(i);
-                i++;
-          };
-        }
-        this.counter=this.counter+1;
-        this.isDeleted = false;
-      },
-      error: (err) => console.log(err)
+        this.products = data;
+      }
     })
   }
 
-  onPrev(){
-    this.pageNumber = this.pageNumber - 1;
-    this.fetchAllProducts();
-  }
+  // fetchAllProducts(){
+  //   this.ervice.getAll(this.page, this.size).subscribe({
+  //     next: (data) => {
+  //       this.products=data.content
+  //       this.totalPages = data.totalPages; 
+  //       this.last = data.last; 
+  //       this.first = data.first; 
 
-  onNext(){
-    this.pageNumber=this.pageNumber+1;
-    this.fetchAllProducts();
-  }
+  //       if(this.counter === 0){
+  //        let i=0;
+  //        while(i<this.totalPages){
+  //            this.numArry.push(i);
+  //            i++;
+  //          };
+  //        }
+  //      this.counter = this.counter+1;
+  //     },
+  //     error: (err) => {
+  //       console.log(err)
+  //     }
 
-  onPageClick(n:number){
-    this.pageNumber=n;
-    this.fetchAllProducts();
-  }
+  //   })
+  // }
+
+  // onPrev(){
+  //   this.pageNumber = this.pageNumber - 1;
+  //   this.fetchAllProducts();
+  // }
+
+  // onNext(){
+  //   this.pageNumber=this.pageNumber+1;
+  //   this.fetchAllProducts();
+  // }
+
+  // onPageClick(n:number){
+  //   this.pageNumber=n;
+  //   this.fetchAllProducts();
+  // }
 
   getDetails(prod: any) {
     this.service.setProductSelected = prod;
-    this.router.navigate([ProductDetailsComponent])
+    this.router.navigateByUrl("/product-details");
     }
     
   onEdit(prod:any){
     this.service.setProductSelected(prod);
-    this.router.navigate([ProductEditComponent])
+    let id = prod.id;
+    this.router.navigateByUrl("/product-edit");
   }
 
   p:any;
 
-  onDelete(prod:any){
-    // const index = this.products.findIndex(item => item.cartProduct.id === cpId);
+  onDelete(id:any){
+    const index = this.products.findIndex(item => item.id === id);
         
-    //     if (index !== -1) {
-    //       this.cartProducts.splice(index, 1);
-    //     }
-    this.products = this.products.filter( (p: { product: { id: number; }; }) => p.product.id != prod.id );
+        if (index !== -1) {
+          this.products.splice(index, 1);
+        }
+    // this.products = this.products.filter( (p) => p.product.id != prod.id );
+    this.service.deleteProduct(id).subscribe({
+      next: ()=> console.log("deleted"),
+      error: (err)=> console.log(err)
+    })
     this.isDeleted = true;
+
   }
 
 

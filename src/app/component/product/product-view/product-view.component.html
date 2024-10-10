@@ -22,12 +22,14 @@
         <tbody>
             <tr *ngFor="let product of products">
                 <td> {{product.id}} </td>
-                <td (click)="getDetails(product)"> {{product.title}} </td>
+                <td >
+                    <a (click)="getDetails(product)" ></a> {{product.title}} </td>
                 <td> {{product.category}} </td>
                 <td> {{product.quantity}} </td>
                 <td> <button (click)="onEdit(product)" > Edit </button> </td>
-                <td> <button (click)="onDelete(product)" > Delete </button> </td>
+                <td> <button (click)="onDelete(product.id)" > Delete </button> </td>
             </tr>
         </tbody>
     </table>
+    
 </div>

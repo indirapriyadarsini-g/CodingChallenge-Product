@@ -44,20 +44,23 @@ export class AddProductComponent implements OnInit{
       console.log(data);
 
 
-      this.service.saveProduct({
+      this.service.saveProduct(
+        data
+        // {
         // "title" : data.title,
         // "category":data.category,
         // "description":data.description,
         // "price":data.price,
         // "quantity":data.quantity
           
-      })
+      // }
+    )
       .subscribe({
         next: (data) => {
           this.isSaved = true;
         this.isError = false;
           console.log(data)
-          this.router.navigateByUrl("/")
+          this.router.navigateByUrl("/view-all-products")
         },
         error: (err) => {
           this.isError = true;
